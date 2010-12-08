@@ -1,6 +1,6 @@
 package Tool::Bench;
 BEGIN {
-  $Tool::Bench::VERSION = '0.001';
+  $Tool::Bench::VERSION = '0.002';
 }
 use Mouse;
 use List::Util qw{shuffle};
@@ -52,7 +52,9 @@ you have to draw the line somewhere. So here's a quick example of useage.
 
   $bench->report(format => 'Text');
   
-=attribute items
+=head1 ATTRIBUTES
+
+=head2 items
 
 This is the store for all the items to be bench marked. When called directly
 you will get an arrayref of Item objects. 
@@ -66,7 +68,9 @@ has items =>
    default => sub{[]},
 ;
 
-=method items_count
+=head1 METHODS
+
+=head2 items_count
 
 Returns the count of the number of items currently stored.
 
@@ -74,7 +78,7 @@ Returns the count of the number of items currently stored.
 
 sub items_count { scalar( @{ shift->items } ) };
 
-=method add_items
+=head2 add_items
 
   $bench->add_items( $name => $coderef );
   $bench->add_items( $name => { startup  => $coderef,
@@ -106,7 +110,7 @@ sub add_items {
    return $self->items_count;
 }
 
-=method run
+=head2 run
 
 
 When you are done adding all your items, you'll want to run them. Run takes an
@@ -138,7 +142,7 @@ sub run {
 #  REPORTING
 #---------------------------------------------------------------------------
 
-=method report
+=head2 report
 
 Lastly, once you've run the items, you'll likely want to mine them and build 
 a report. The report method by default will return a Text report, though you

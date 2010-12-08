@@ -1,6 +1,6 @@
 package Tool::Bench::Report::JSON;
 BEGIN {
-  $Tool::Bench::Report::JSON::VERSION = '0.001';
+  $Tool::Bench::Report::JSON::VERSION = '0.002';
 }
 use Mouse;
 use JSON;

@@ -19,4 +19,4 @@ requires:
   Mouse: 0
   MouseX::Getopt: 0
   Test::Most: 0
-version: 0.001
+version: 0.002
