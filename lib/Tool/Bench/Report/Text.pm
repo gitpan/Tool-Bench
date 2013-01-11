@@ -1,6 +1,6 @@
 package Tool::Bench::Report::Text;
-BEGIN {
-  $Tool::Bench::Report::Text::VERSION = '0.002';
+{
+  $Tool::Bench::Report::Text::VERSION = '0.003';
 }
 use Mouse;
 use List::Util qw{min max sum };

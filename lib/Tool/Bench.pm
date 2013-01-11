@@ -1,27 +1,30 @@
 package Tool::Bench;
-BEGIN {
-  $Tool::Bench::VERSION = '0.002';
+{
+  $Tool::Bench::VERSION = '0.003';
 }
 use Mouse;
 use List::Util qw{shuffle};
 use Data::Dumper;
 
-# ABSTRACT: simple bencher tool kit
+# ABSTRACT: Tool Bench is a generic framework for running benchmarks.
+
+=head1 NAME 
+
+Tool::Bench - Tool Bench is a generic framework for running benchmarks.
 
 =head1 SYNOPSIS 
 
-Ok so I'm sure your asking your self, yet another benchmarking suit? Sure 
-there are many others but this one is not for perl specifcly. Think of 
-Tool::Bench more as a jazzy version of the unix 'time' command it just
-happens to be written in perl. With 'time' you have a very simple wrap a clock
-around this comand for one run.  Tool::Bench goes a bit further by wrapping 
-a clock around the execution of an number of CodeRef, run as many times as 
-you want. Then because all these times are stored you can build reports from
-the results of all these runs.
+Ok so I'm sure your asking your self, yet another benchmarking suit? Sure there
+are many others but this one is not specific to Perl. Think of Tool::Bench more
+as a jazzy version of the unix 'time' command it just happens to be written in
+perl. With 'time' you have a very simple wrap a clock around this command for
+one run.  Tool::Bench goes a bit further by wrapping a clock around the
+execution of an number of CodeRef, run as many times as you want. Then because
+all these times are stored you can build reports from the results of all these
+runs.
 
-That said Tool::Bench is specificly designed to just be the clock engine, 
-you have to draw the line somewhere. So here's a quick example of useage.
-
+That said Tool::Bench is designed to just be the clock engine, you
+have to draw the line somewhere. So here's a quick example of usage.
 
   use Tool::Bench;
   my $bench = Tool::Bench->new;
@@ -84,7 +87,7 @@ sub items_count { scalar( @{ shift->items } ) };
   $bench->add_items( $name => { startup  => $coderef,
                                 code     => $coderef,
                                 teardown => $coderef,
-                                #varify  => $coderef, # currently not implimented
+                                #verify  => $coderef, # currently not implimented
                               }
                      ...
                    );
@@ -128,12 +131,14 @@ sub run {
    my $self  = shift;
    my $times = shift || 1;
    my $count = 0;
+   $_->pre_run->() for @{ $self->items }; # pre run even tripping
    foreach my $i (1..int($times)) {
       foreach my $item ( shuffle( @{ $self->items } ) ) {
          $item->run;
          $count++;
       }
    }
+   $_->post_run->() for @{ $self->items }; # post run even tripping
    $count; # seems completely pointless but should return something at least marginally useful
 }
 
